@@ -5,7 +5,6 @@
   @Autor:       Alfonso Reyes Cortés
   @Placa:       Arduino UNO R3
   @Descripción: Código para robot sumo, ahora en una versión mejorada y sin bugs
-  No permitida su distribución o sera castigada con pena capital, ni siquiera para fines de aprendizaje.
 */
 
 /*
