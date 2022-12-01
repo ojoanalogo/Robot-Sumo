@@ -1,0 +1,95 @@
+#include <SR04.h>
+#define echo 10 //pin del echo
+#define trig 11 //pin del trigger
+SR04 sr04= SR04(trig,echo);
+long a; //variable para guardar la distancia del ultrasonidos
+
+int enaA=2; //modulo A <delante-derecha>
+int enbA=3; //modulo A <delante-izquierda>
+int enaB=4; //modulo B <detras-derecha>.
+int enbB=5; //modulo B <detras-izquierda>
+int in1A=30; //modulo A <in1-out1>
+int in2A=33; //modulo A <in2-out2>
+int in3A=34; //modulo A <in3-out3>
+int in4A=37; //modulo A <in4-out4>
+int in1B=38; //modulo B <in1-out1>
+int in2B=41; //modulo B <in2-out2>
+int in3B=42; //modulo B <in3-out3>
+int in4B=45; //modulo B <in4-out4>
+int led=7; //led
+int zum=8; //zumbador
+int puls=9; //pulsador
+int var=1;
+
+#include "BROSS.h"
+
+void setup()
+{
+  pinMode(enaA, OUTPUT);
+  pinMode(enbA, OUTPUT);
+  pinMode(enaB, OUTPUT);
+  pinMode(enbB, OUTPUT);
+  pinMode(in1A, OUTPUT);
+  pinMode(in2A, OUTPUT);
+  pinMode(in3A, OUTPUT);
+  pinMode(in4A, OUTPUT);
+  pinMode(in1B, OUTPUT);
+  pinMode(in2B, OUTPUT);
+  pinMode(in3B, OUTPUT);
+  pinMode(in4B, OUTPUT);
+  pinMode(led, OUTPUT);
+  pinMode(zum, OUTPUT);
+  pinMode(puls, INPUT);
+}
+
+void loop()
+{
+  if(var == 1)
+  {
+   //led parpadeando
+   delay(500);
+   digitalWrite(led, HIGH);
+   delay(500);
+   digitalWrite(led, LOW);
+  if(digitalRead(puls) == HIGH) //si se da el pulsador...
+   {
+    digitalWrite(led, LOW);
+    var = 2; //...iguala la variable a 2
+   }
+  }
+  if(var == 2)
+  {
+    delay(1000);
+    midi1(); //ejecuta la canción en el zumbador
+    //girando derecha
+    analogWrite(enaA, 255);
+    digitalWrite(in1A, HIGH);
+    digitalWrite(in2A, LOW);
+    analogWrite(enbA, 255);
+    digitalWrite(in3A, LOW);
+    digitalWrite(in4A, HIGH);
+    analogWrite(enaB, 255);
+    digitalWrite(in1B, HIGH);
+    digitalWrite(in2B, LOW);
+    digitalWrite(enbB, 255);
+    digitalWrite(in3B, LOW);
+    digitalWrite(in4B, HIGH);
+    if(digitalRead(puls) == HIGH) //si se da el pulsador...
+   {
+    //parar motores
+    digitalWrite(enaA, LOW);
+    digitalWrite(in1A, LOW);
+    digitalWrite(in2A, LOW);
+    digitalWrite(enbA, LOW);
+    digitalWrite(in3A, LOW);
+    digitalWrite(in4A, LOW);
+    analogWrite(enaB, LOW);
+    digitalWrite(in1B, LOW);
+    digitalWrite(in2B, LOW);
+    digitalWrite(enbB, LOW);
+    digitalWrite(in3B, LOW);
+    digitalWrite(in4B, LOW);
+    var = 1; //...iguala la variable a 1
+   }
+  }
+}
